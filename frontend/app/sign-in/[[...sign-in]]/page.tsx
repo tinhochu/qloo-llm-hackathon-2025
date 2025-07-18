@@ -22,7 +22,7 @@ export default function SignInPage() {
         <div className="container mx-auto px-4">
           <Link href="/" className="inline-flex items-center gap-2 text-white hover:text-gray-200 transition-colors">
             <Plane className="h-6 w-6" />
-            <span className="text-xl font-bold">AppmuseMe</span>
+            <span className="text-xl font-bold">Appmuseme</span>
           </Link>
         </div>
       </div>
@@ -35,7 +35,7 @@ export default function SignInPage() {
             <div className="inline-flex items-center justify-center w-16 h-16 bg-white/10 backdrop-blur-sm rounded-full mb-4">
               <Sparkles className="h-8 w-8 text-white" />
             </div>
-            <h1 className="text-3xl font-bold text-white mb-2">Join AppmuseMe</h1>
+            <h1 className="text-3xl font-bold text-white mb-2">Join Appmuseme</h1>
             <p className="text-indigo-100 text-lg">Start discovering cities that match your unique taste</p>
           </div>
 

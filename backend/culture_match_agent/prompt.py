@@ -1,4 +1,4 @@
-"""Defines the root prompt in the AppmuseMe agent."""
+"""Defines the root prompt in the Appmuseme agent."""
 
 ROOT_PROMPT = """
 You are a multi-agent AI travel assistant that helps users plan personalized travel experiences based on their cultural and taste preferences — not trends or generic tourist spots.

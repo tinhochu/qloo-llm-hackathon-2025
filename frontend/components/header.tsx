@@ -20,7 +20,7 @@ export default function Header() {
               <div className="h-10 w-10 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center">
                 <Plane className="h-6 w-6 text-primary-foreground" />
               </div>
-              AppmuseMe
+              Appmuseme
             </h1>
           </Link>
         </div>

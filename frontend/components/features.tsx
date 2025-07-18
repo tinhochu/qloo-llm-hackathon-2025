@@ -32,7 +32,7 @@ export function Features() {
     <section className="py-24 bg-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Why AppmuseMe Works</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Why Appmuseme Works</h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Most travel platforms push what's popular. We flip the model to show you what you'll actually enjoy.
           </p>

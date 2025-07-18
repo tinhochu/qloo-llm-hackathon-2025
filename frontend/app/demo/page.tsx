@@ -17,7 +17,7 @@ export default function DemoPage() {
               Demo: Tokyo Trip for a Jazz & Ramen Lover
             </h1>
             <p className="text-lg text-gray-600">
-              See how AppmuseMe creates personalized itineraries based on your unique taste profile
+              See how Appmuseme creates personalized itineraries based on your unique taste profile
             </p>
           </div>
 
