@@ -1,3 +1,4 @@
+<img width="2782" height="792" alt="chuventures-07 18 17 34 48@2x" src="https://github.com/user-attachments/assets/7104e150-eaf6-4d8b-aabe-a6ba614a6810" />
 # Qloo LLM Hackathon
 
 ## Author
@@ -10,6 +11,7 @@
 [![Twitter](https://img.shields.io/badge/@tinhochu-000000?logo=x)](https://x.com/tinhochu)
 
 ---
+
 
 ## 🎥 Demo Video
 
