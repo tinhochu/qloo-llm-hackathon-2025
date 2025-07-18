@@ -7,7 +7,7 @@ creator_companion_agent = LlmAgent(
     name="CultureMatchAgent",
     instruction=prompt.ROOT_PROMPT,
     sub_agents=[preprod_pipeline_agent],
-    output_key="content_package",
+    output_key="package",
 )
 
 root_agent = creator_companion_agent

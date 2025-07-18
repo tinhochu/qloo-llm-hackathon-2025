@@ -1,10 +1,11 @@
-import { PlanningForm } from "@/components/planning-form"
-import { ArrowLeft } from "lucide-react"
-import Link from "next/link"
+import PlanningChat from "@/components/planning-chat";
+import { PlanningForm } from "@/components/planning-form";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
 export default function PlanPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <div className="container mx-auto px-4 py-8">
         <Link href="/" className="inline-flex items-center text-indigo-600 hover:text-indigo-800 mb-8">
           <ArrowLeft className="h-4 w-4 mr-2" />
@@ -19,9 +20,10 @@ export default function PlanPage() {
             </p>
           </div>
 
-          <PlanningForm />
+          {/* <PlanningForm /> */}
+          <PlanningChat />
         </div>
       </div>
     </div>
-  )
+  );
 }
