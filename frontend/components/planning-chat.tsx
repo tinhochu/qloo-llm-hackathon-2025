@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useChat } from '@ai-sdk/react'
-import { Loader2, MapPin, RotateCcw, Send, Square } from 'lucide-react'
+import { Loader2, RotateCcw, Send, Square } from 'lucide-react'
 import { useEffect, useRef } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -100,7 +100,7 @@ export default function PlanningChat() {
                   className={`max-w-[80%] p-2 px-3 ${
                     message.role === 'user'
                       ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white border-0'
-                      : 'bg-white border border-gray-200 shadow-sm font-mono'
+                      : 'bg-white border border-gray-200 shadow-sm'
                   }`}
                 >
                   <div

@@ -1,3 +1,3 @@
-import { ideaQueue } from '@/queues/idea'
+import { tripQueue } from '@/queues/trip'
 
-export { ideaQueue as POST }
+export { tripQueue as POST }

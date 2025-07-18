@@ -2,12 +2,31 @@ import mongoose from 'mongoose'
 
 import toJSON from './plugins/toJSON'
 
-export const ideaSchema = new mongoose.Schema(
+export const tripSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
+    },
+    destination: {
+      type: String,
+    },
+    duration: {
+      type: String,
+    },
+    isWeekendTrip: {
+      type: Boolean,
+      default: false,
+    },
+    season: {
+      type: String,
+    },
+    travelMood: {
+      type: String,
+    },
+    culturalPreferences: {
+      type: [String],
     },
     status: {
       type: String,
@@ -29,6 +48,6 @@ export const ideaSchema = new mongoose.Schema(
   }
 )
 
-ideaSchema.plugin(toJSON)
+tripSchema.plugin(toJSON)
 
-export default mongoose.models.Idea || mongoose.model('Idea', ideaSchema)
+export default mongoose.models.Trip || mongoose.model('Trip', tripSchema)
