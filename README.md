@@ -1,1 +1,1 @@
-# qloo-llm-hackathon-2025
+# APPMUSE

@@ -11,8 +11,8 @@ import { Suspense } from 'react'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'CultureMatch',
-  description: 'CultureMatch',
+  title: 'AppmuseMe',
+  description: 'AppmuseMe',
 }
 
 export default function RootLayout({

@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button"
-import { ArrowRight, Plane } from "lucide-react"
-import Link from "next/link"
+import { Button } from '@/components/ui/button'
+import { ArrowRight, Plane } from 'lucide-react'
+import Link from 'next/link'
 
 export function Hero() {
   return (
@@ -10,7 +10,7 @@ export function Hero() {
         <div className="text-center">
           <div className="flex items-center justify-center gap-2 mb-6">
             <Plane className="h-8 w-8 text-white" />
-            <span className="text-2xl font-bold text-white">CultureMatch</span>
+            <span className="text-2xl font-bold text-white">AppmuseMe</span>
           </div>
 
           <h1 className="text-4xl sm:text-6xl font-bold text-white mb-6 leading-tight">

@@ -1,6 +1,6 @@
-import { DemoItinerary } from "@/components/demo-itinerary"
-import { ArrowLeft } from "lucide-react"
-import Link from "next/link"
+import { DemoItinerary } from '@/components/demo-itinerary'
+import { ArrowLeft } from 'lucide-react'
+import Link from 'next/link'
 
 export default function DemoPage() {
   return (
@@ -17,7 +17,7 @@ export default function DemoPage() {
               Demo: Tokyo Trip for a Jazz & Ramen Lover
             </h1>
             <p className="text-lg text-gray-600">
-              See how CultureMatch creates personalized itineraries based on your unique taste profile
+              See how AppmuseMe creates personalized itineraries based on your unique taste profile
             </p>
           </div>
 
