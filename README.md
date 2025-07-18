@@ -1,4 +1,4 @@
-<img  alt="chuventures-07 18 17 34 48@2x" src="https://github.com/user-attachments/assets/7104e150-eaf6-4d8b-aabe-a6ba614a6810" />
+![Banner Image](https://github.com/user-attachments/assets/7104e150-eaf6-4d8b-aabe-a6ba614a6810)
 
 # Qloo LLM Hackathon
 
