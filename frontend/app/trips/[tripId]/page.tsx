@@ -36,6 +36,15 @@ async function getTrip(tripId: string) {
   return trip
 }
 
+function BackButton() {
+  return (
+    <Link href="/trips" className="inline-flex items-center text-indigo-600 hover:text-indigo-800 mb-8">
+      <ArrowLeft className="h-4 w-4 mr-2" />
+      Back to Trips
+    </Link>
+  )
+}
+
 export default async function TripPage({ params }: TripPageProps) {
   const { tripId } = await params
 
@@ -48,10 +57,7 @@ export default async function TripPage({ params }: TripPageProps) {
           <div className="text-center">
             <h2 className="text-2xl font-semibold text-gray-900 mb-2">Trip Not Found</h2>
             <p className="text-gray-600 mb-4">The trip you're looking for doesn't exist.</p>
-            <Link href="/plan" className="inline-flex items-center text-indigo-600 hover:text-indigo-800">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Plan a New Trip
-            </Link>
+            <BackButton />
           </div>
         </div>
       </div>
@@ -63,10 +69,7 @@ export default async function TripPage({ params }: TripPageProps) {
       <div className="h-[calc(100vh-88px)] bg-gradient-to-br from-slate-50 to-blue-50">
         <div className="w-full max-w-2xl mx-auto">
           <div className="container mx-auto px-4 py-8">
-            <Link href="/plan" className="inline-flex items-center text-indigo-600 hover:text-indigo-800 mb-8">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Plan Another Trip
-            </Link>
+            <BackButton />
 
             <div className="max-w-4xl mx-auto text-center">
               <Loader2 className="h-16 w-16 animate-spin text-indigo-600 mx-auto mb-6" />
@@ -112,10 +115,7 @@ export default async function TripPage({ params }: TripPageProps) {
       <div className="h-[calc(100vh-88px)] bg-gradient-to-br from-slate-50 to-blue-50">
         <div className="w-full max-w-2xl mx-auto">
           <div className="container mx-auto px-4 py-8">
-            <Link href="/plan" className="inline-flex items-center text-indigo-600 hover:text-indigo-800 mb-8">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Plan Another Trip
-            </Link>
+            <BackButton />
 
             <div className="max-w-4xl mx-auto text-center">
               <h1 className="text-3xl font-bold text-gray-900 mb-4">Trip Creation Failed</h1>
@@ -123,10 +123,10 @@ export default async function TripPage({ params }: TripPageProps) {
                 We encountered an issue while creating your itinerary. Please try planning a new trip.
               </p>
               <Link
-                href="/plan"
+                href="/trips"
                 className="inline-flex items-center px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
               >
-                Plan a New Trip
+                Back to Trips
               </Link>
             </div>
           </div>
@@ -139,10 +139,7 @@ export default async function TripPage({ params }: TripPageProps) {
     <div className="h-[calc(100vh-88px)] bg-gradient-to-br from-slate-50 to-blue-50">
       <div className="w-full max-w-2xl mx-auto">
         <div className="container mx-auto px-4 py-8">
-          <Link href="/plan" className="inline-flex items-center text-indigo-600 hover:text-indigo-800 mb-8">
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Plan Another Trip
-          </Link>
+          <BackButton />
 
           {/* <TravelItinerary travelPlan={travelPlan} /> */}
         </div>
