@@ -1,67 +1,67 @@
-"use client";
+'use client'
 
-import { useChat } from "@ai-sdk/react";
-import { Loader2, Send, Square, MapPin, RotateCcw } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { useEffect, useRef } from "react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { useChat } from '@ai-sdk/react'
+import { Loader2, MapPin, RotateCcw, Send, Square } from 'lucide-react'
+import { useEffect, useRef } from 'react'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 export default function PlanningChat() {
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const scrollAreaRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
-  const { messages, input, handleInputChange, handleSubmit, status, stop, setMessages, addToolResult } = useChat({
+  const { messages, input, handleInputChange, handleSubmit, status, stop, setMessages } = useChat({
     initialMessages: [
       {
-        id: "initial",
-        role: "assistant",
+        id: 'initial',
+        role: 'assistant',
         content:
           "Hello! I'm here to help you plan your trip. Tell me about your travel preferences and I'll create a personalized itinerary for you.\n\n**I can help you with:**\n- Destination recommendations\n- Itinerary planning\n- Budget considerations\n- Travel tips and advice\n\nJust let me know what you're looking for!",
       },
     ],
-  });
+  })
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
     if (scrollAreaRef.current) {
-      const scrollContainer = scrollAreaRef.current.querySelector("[data-radix-scroll-area-viewport]");
+      const scrollContainer = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]')
       if (scrollContainer) {
-        scrollContainer.scrollTop = scrollContainer.scrollHeight;
+        scrollContainer.scrollTop = scrollContainer.scrollHeight
       }
     }
-  }, [messages]);
+  }, [messages])
 
   // Focus input when assistant responds
   useEffect(() => {
-    const lastMessage = messages[messages.length - 1];
-    if (lastMessage && lastMessage.role === "assistant" && status === "ready") {
+    const lastMessage = messages[messages.length - 1]
+    if (lastMessage && lastMessage.role === 'assistant' && status === 'ready') {
       // Small delay to ensure the message is fully rendered
       const timer = setTimeout(() => {
         if (inputRef.current) {
-          inputRef.current.focus();
+          inputRef.current.focus()
         }
-      }, 100);
-      return () => clearTimeout(timer);
+      }, 100)
+      return () => clearTimeout(timer)
     }
-  }, [messages, status]);
+  }, [messages, status])
 
-  const isLoading = status === "submitted" || status === "streaming";
+  const isLoading = status === 'submitted' || status === 'streaming'
 
   const handleStartOver = () => {
     setMessages([
       {
-        id: "initial",
-        role: "assistant",
+        id: 'initial',
+        role: 'assistant',
         content:
           "Hello! I'm here to help you plan your trip. Tell me about your travel preferences and I'll create a personalized itinerary for you.\n\n**I can help you with:**\n- Destination recommendations\n- Itinerary planning\n- Budget considerations\n- Travel tips and advice\n\nJust let me know what you're looking for!",
       },
-    ]);
-  };
+    ])
+  }
 
   return (
     <div className="flex flex-col h-full relative">
@@ -88,9 +88,9 @@ export default function PlanningChat() {
             {messages.map((message) => (
               <div
                 key={message.id}
-                className={`flex gap-3 ${message.role === "user" ? "justify-end" : "justify-start"}`}
+                className={`flex gap-3 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
-                {message.role === "assistant" && (
+                {message.role === 'assistant' && (
                   <Avatar className="h-8 w-8 bg-gradient-to-r from-blue-500 to-indigo-600">
                     <AvatarFallback className="text-gray-500 text-sm font-medium">AI</AvatarFallback>
                   </Avatar>
@@ -98,21 +98,22 @@ export default function PlanningChat() {
 
                 <Card
                   className={`max-w-[80%] p-2 px-3 ${
-                    message.role === "user"
-                      ? "bg-gradient-to-r from-blue-500 to-indigo-600 text-white border-0"
-                      : "bg-white border border-gray-200 shadow-sm font-mono"
+                    message.role === 'user'
+                      ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white border-0'
+                      : 'bg-white border border-gray-200 shadow-sm font-mono'
                   }`}
                 >
                   <div
-                    className={`text-sm leading-relaxed ${message.role === "user" ? "text-white" : "text-gray-800"}`}
+                    className={`text-sm leading-relaxed ${message.role === 'user' ? 'text-white' : 'text-gray-800'}`}
                   >
-                    {message.role === "assistant" ? (
+                    {message.role === 'assistant' ? (
                       <div className="prose prose-sm max-w-none text-sm">
-                        {message.parts.map((part) => {
+                        {message.parts.map((part, index) => {
                           switch (part.type) {
-                            case "text":
+                            case 'text':
                               return (
                                 <ReactMarkdown
+                                  key={`text-${index}`}
                                   remarkPlugins={[remarkGfm]}
                                   components={{
                                     // Custom styling for markdown elements
@@ -158,70 +159,34 @@ export default function PlanningChat() {
                                 >
                                   {message.content}
                                 </ReactMarkdown>
-                              );
-                            case "tool-invocation":
-                              const callId = part.toolInvocation.toolCallId;
+                              )
+                            case 'tool-invocation':
+                              const callId = part.toolInvocation.toolCallId
 
                               switch (part.toolInvocation.toolName) {
-                                case "askForConfirmation": {
+                                case 'createTrip': {
                                   switch (part.toolInvocation.state) {
-                                    case "call":
+                                    case 'call':
                                       return (
-                                        <div key={callId}>
-                                          {part.toolInvocation.args.message}
-                                          <div>
-                                            <button
-                                              onClick={() =>
-                                                addToolResult({
-                                                  toolCallId: callId,
-                                                  result: "Yes, confirmed.",
-                                                })
-                                              }
-                                            >
-                                              Yes
-                                            </button>
-                                            <button
-                                              onClick={() =>
-                                                addToolResult({
-                                                  toolCallId: callId,
-                                                  result: "No, denied",
-                                                })
-                                              }
-                                            >
-                                              No
-                                            </button>
-                                          </div>
-                                        </div>
-                                      );
-                                    case "result":
-                                      return (
-                                        <div key={callId}>Location access allowed: {part.toolInvocation.result}</div>
-                                      );
-                                  }
-                                  break;
-                                }
-
-                                case "createTrip": {
-                                  switch (part.toolInvocation.state) {
-                                    case "call":
-                                      return (
-                                        <div key={callId}>
+                                        <div key={`trip-call-${callId}`}>
                                           Gathering information for {part.toolInvocation.args.destination}...
                                         </div>
-                                      );
-                                    case "result":
+                                      )
+                                    case 'result':
                                       return (
-                                        <div key={callId}>
-                                          Awesome! I've created a trip for you to{" "}
-                                          {part.toolInvocation.result.destination},{" "}
+                                        <div key={`trip-result-${callId}`}>
+                                          Awesome! I've created a trip for you to{' '}
+                                          {part.toolInvocation.result.destination},{' '}
                                           {part.toolInvocation.result.duration} days. Next I will redirect you to the
                                           trip itinerary.
                                         </div>
-                                      );
+                                      )
                                   }
-                                  break;
+                                  break
                                 }
                               }
+
+                              return null
                           }
                         })}
                       </div>
@@ -231,7 +196,7 @@ export default function PlanningChat() {
                   </div>
                 </Card>
 
-                {message.role === "user" && (
+                {message.role === 'user' && (
                   <Avatar className="h-8 w-8 bg-gradient-to-r from-gray-500 to-gray-600">
                     <AvatarFallback className="text-gray-500 text-sm font-medium">You</AvatarFallback>
                   </Avatar>
@@ -266,7 +231,7 @@ export default function PlanningChat() {
                 name="prompt"
                 value={input}
                 onChange={handleInputChange}
-                disabled={status !== "ready"}
+                disabled={status !== 'ready'}
                 placeholder="Tell me about your dream destination..."
                 className="pr-12 py-3 text-sm border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                 ref={inputRef}
@@ -285,7 +250,7 @@ export default function PlanningChat() {
             </div>
             <Button
               type="submit"
-              disabled={status !== "ready" || !input.trim()}
+              disabled={status !== 'ready' || !input.trim()}
               className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 px-6 py-3"
             >
               {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
@@ -294,18 +259,18 @@ export default function PlanningChat() {
 
           {/* Quick suggestions */}
           <div className="mt-3 flex flex-wrap gap-2">
-            {["Plan a weekend in Paris", "Beach vacation ideas", "Mountain hiking trip"].map((suggestion) => (
+            {['Plan a weekend in Paris', 'Beach vacation ideas', 'Mountain hiking trip'].map((suggestion) => (
               <Button
                 key={suggestion}
                 variant="outline"
                 size="sm"
                 className="text-xs text-gray-600 border-gray-300 hover:bg-gray-50 bg-transparent"
                 onClick={() => {
-                  if (status === "ready") {
-                    handleInputChange({ target: { value: suggestion } } as any);
+                  if (status === 'ready') {
+                    handleInputChange({ target: { value: suggestion } } as any)
                   }
                 }}
-                disabled={status !== "ready"}
+                disabled={status !== 'ready'}
               >
                 {suggestion}
               </Button>
@@ -314,5 +279,5 @@ export default function PlanningChat() {
         </div>
       </div>
     </div>
-  );
+  )
 }
