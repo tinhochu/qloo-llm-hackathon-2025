@@ -3,7 +3,7 @@ import PlanningChat from '@/components/planning-chat'
 export default function PlanPage() {
   return (
     <div className="h-[calc(100vh-88px)] bg-gradient-to-br from-slate-50 to-blue-50">
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4 py-4 pt-8">
         <div className="max-w-2xl mx-auto">
           <div className="text-center">
             <h1 className="text-3xl sm:text-3xl font-bold text-gray-900 mb-4">Plan Your Perfect Trip</h1>
@@ -14,7 +14,9 @@ export default function PlanPage() {
             </div>
           </div>
 
-          <PlanningChat />
+          <div className="w-full max-w-xl mx-auto">
+            <PlanningChat />
+          </div>
         </div>
       </div>
     </div>

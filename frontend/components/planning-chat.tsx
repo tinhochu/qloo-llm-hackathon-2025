@@ -7,13 +7,17 @@ import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useChat } from '@ai-sdk/react'
 import { Loader2, RotateCcw, Send, Square } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { useEffect, useRef } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import { toast } from 'sonner'
 
 export default function PlanningChat() {
   const scrollAreaRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const router = useRouter()
+  const toastShownRef = useRef<Set<string>>(new Set())
 
   const { messages, input, handleInputChange, handleSubmit, status, stop, setMessages } = useChat({
     initialMessages: [
@@ -61,12 +65,14 @@ export default function PlanningChat() {
           "Hello! I'm here to help you plan your trip. Tell me about your travel preferences and I'll create a personalized itinerary for you.\n\n**I can help you with:**\n- Destination recommendations\n- Itinerary planning\n- Budget considerations\n- Travel tips and advice\n\nJust let me know what you're looking for!",
       },
     ])
+    // Clear the toast shown set when starting over
+    toastShownRef.current.clear()
   }
 
   return (
-    <div className="flex flex-col h-full relative">
+    <div className="flex flex-col h-full relative bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl mt-4 overflow-hidden backdrop-blur-sm shadow-xl">
       {/* Header with Start Over button */}
-      <div className="border-b border-gray-200 px-4 py-3">
+      <div className="px-4 py-3">
         <div className="max-w-4xl mx-auto flex justify-end items-center">
           <Button
             onClick={handleStartOver}
@@ -173,14 +179,29 @@ export default function PlanningChat() {
                                         </div>
                                       )
                                     case 'result':
-                                      return (
-                                        <div key={`trip-result-${callId}`}>
-                                          Awesome! I've created a trip for you to{' '}
-                                          {part.toolInvocation.result.destination},{' '}
-                                          {part.toolInvocation.result.duration} days. Next I will redirect you to the
-                                          trip itinerary.
-                                        </div>
-                                      )
+                                      // Type assertion for result state
+                                      const resultInvocation = part.toolInvocation as any
+                                      if (resultInvocation.result?.tripId) {
+                                        // Only show toast once per trip ID
+                                        if (!toastShownRef.current.has(resultInvocation.result.tripId)) {
+                                          toast.success('Trip created successfully')
+                                          toastShownRef.current.add(resultInvocation.result.tripId)
+                                        }
+                                        // Redirect to the trip page after a short delay
+                                        setTimeout(() => {
+                                          router.push(`/trips/${resultInvocation.result.tripId}`)
+                                        }, 2000)
+
+                                        return (
+                                          <div key={`trip-result-${callId}`}>
+                                            Awesome! I've created a trip for you to{' '}
+                                            {resultInvocation.result?.destination}, {resultInvocation.result?.duration}{' '}
+                                            days. Redirecting you to your trip itinerary...
+                                            <Loader2 className="h-4 w-4 animate-spin" />
+                                          </div>
+                                        )
+                                      }
+                                      return null
                                   }
                                   break
                                 }
@@ -223,7 +244,7 @@ export default function PlanningChat() {
       </div>
 
       {/* Input Area - Fixed at bottom */}
-      <div className="bg-white border rounded-md border-gray-200 px-4 py-4 sticky bottom-0 left-0 right-0 z-10">
+      <div className="bg-gray-100 border rounded-md border-gray-200 px-4 py-4 sticky bottom-0 left-0 right-0 z-10">
         <div className="max-w-4xl mx-auto">
           <form onSubmit={handleSubmit} className="flex gap-3">
             <div className="flex-1 relative">
