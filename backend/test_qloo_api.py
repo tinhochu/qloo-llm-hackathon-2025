@@ -60,10 +60,12 @@ def test_qloo_api():
                 print(f"   ✅ Success! Found {len(results)} results")
                 
                 if results:
-                    # Show first result as example
+                    # Show first result as example with full structure
                     first_result = results[0]
                     print(f"   📍 Example: {first_result.get('name', 'Unknown')}")
                     print(f"   🏷️  Types: {first_result.get('types', [])}")
+                    print(f"   📋 Full result structure:")
+                    print(f"      {json.dumps(first_result, indent=6)}")
                     
             elif response.status_code == 401:
                 print("   ❌ Authentication failed - check your API key")

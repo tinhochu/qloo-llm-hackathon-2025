@@ -1,6 +1,7 @@
 """Defines tools for OpenWeather"""
 
 from google.adk.tools import ToolContext
+from google.adk.tools import FunctionTool
 import requests
 import os
 from typing import Dict, Any, Optional, Union
@@ -9,7 +10,6 @@ import logging
 logger = logging.getLogger(__name__)
 
 def get_coordinates_by_location(
-    tool_context: ToolContext, 
     city_name: str, 
     country_name: Optional[str] = None, 
     limit: int = 1
@@ -18,7 +18,6 @@ def get_coordinates_by_location(
     Get coordinates (latitude and longitude) for a location using the OpenWeather Geocoding API
     
     Args:
-        tool_context: The tool context
         city_name: Name of the city
         country_name: Name of the country
         limit: Number of results to return (up to 5, default 1)

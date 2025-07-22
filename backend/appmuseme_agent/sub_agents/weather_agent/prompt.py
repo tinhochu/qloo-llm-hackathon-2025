@@ -96,6 +96,8 @@ If the target date is valid, return a JSON object with the following structure:
 {
   "location": {
     "name": "<location_name>",
+    "country": "<country_name>",
+    "city": "<city_name>",
     "coordinates": {
       "lat": <latitude>,
       "lng": <longitude>
