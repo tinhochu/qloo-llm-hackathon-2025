@@ -1,20 +1,19 @@
-"use client"
+'use client'
 
-import type React from "react"
-
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Loader2, MapPin, Heart } from "lucide-react"
-import { useRouter } from "next/navigation"
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import { Heart, Loader2, MapPin } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import type React from 'react'
+import { useState } from 'react'
 
 export function PlanningForm() {
-  const [destination, setDestination] = useState("")
-  const [tastes, setTastes] = useState("")
-  const [duration, setDuration] = useState("")
+  const [destination, setDestination] = useState('')
+  const [tastes, setTastes] = useState('')
+  const [duration, setDuration] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
@@ -27,15 +26,15 @@ export function PlanningForm() {
 
     // Store form data in sessionStorage for the results page
     sessionStorage.setItem(
-      "travelPlan",
+      'travelPlan',
       JSON.stringify({
         destination,
         tastes,
         duration,
-      }),
+      })
     )
 
-    router.push("/results")
+    router.push('/results')
   }
 
   return (
@@ -77,16 +76,15 @@ export function PlanningForm() {
             </Label>
             <Textarea
               id="tastes"
-              placeholder="I love acid jazz, wine bars, mid-century architecture, thrift shopping, sci-fi novels, quiet bookstores, authentic ramen, underground music venues..."
+              placeholder="I love acid jazz, wine bars, mid-century architecture, thrift shopping, sci-fi novels, quiet bookstores, authentic ramen, underground music venues... (optional)"
               value={tastes}
               onChange={(e) => setTastes(e.target.value)}
               rows={6}
-              required
               className="resize-none"
             />
             <p className="text-sm text-gray-500">
               Be as specific as possible! Include music, food, books, architecture, activities, or anything that defines
-              your taste.
+              your taste. This is optional - we can still create great recommendations without it.
             </p>
           </div>
 
@@ -101,7 +99,7 @@ export function PlanningForm() {
                 Creating Your Perfect Itinerary...
               </>
             ) : (
-              "Generate My Itinerary"
+              'Generate My Itinerary'
             )}
           </Button>
         </form>

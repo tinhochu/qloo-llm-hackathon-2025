@@ -47,7 +47,39 @@
 ## 📡 Installation & Setup
 
 1. Clone the repo
-2. Set up your `.env` file (refer to `.env.example`)
+2. Set up your environment variables:
+
+   ```bash
+   # Copy the example environment file
+   cp backend/env.example backend/.env
+
+   # Edit the .env file with your API keys
+   # You'll need:
+   # - QLOO_API_KEY: Your Qloo API key
+   # - QLOO_API_URL: Qloo API base URL (usually https://api.qloo.com/v1)
+   # - OPENWEATHER_API_KEY: Your OpenWeather API key
+   # - RAPID_API_KEY: Your RapidAPI key (for TikTok music trends)
+
+   ```
+
+3. Test your API connections:
+
+   ```bash
+   cd backend
+   python test_qloo_api.py
+   ```
+
+4. Install dependencies:
+
+   ```bash
+   # Backend dependencies
+   cd backend
+   pip install -r requirements.txt
+
+   # Frontend dependencies
+   cd ../frontend
+   npm install
+   ```
 
 ---
 
@@ -77,6 +109,38 @@ Creators are overwhelmed by the daily pressure to ideate, write, and stay on-tre
 ---
 
 ## 🔮 What's Next for Appmuseme
+
+---
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+**Qloo API returning empty results:**
+
+- Check that `QLOO_API_KEY` and `QLOO_API_URL` are set correctly
+- Verify your API key has the necessary permissions
+- Run `python test_qloo_api.py` to test connectivity
+- Check the API documentation for any recent changes
+
+**OpenTelemetry context errors:**
+
+- These are usually harmless and related to the Google ADK framework
+- They don't affect the core functionality of the application
+- Can be ignored unless they're causing other issues
+
+**Agent not finding entities:**
+
+- Ensure cultural preferences are being passed correctly
+- Check that the destination is valid and geocodable
+- Verify that the Qloo API is returning results for your test queries
+
+### Getting Help
+
+1. Run the test script: `python test_qloo_api.py`
+2. Check the debug logs in your console
+3. Verify your environment variables are set correctly
+4. Ensure you have valid API keys with proper permissions
 
 ---
 

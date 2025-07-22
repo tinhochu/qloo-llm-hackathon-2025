@@ -57,11 +57,12 @@ export async function POST(req: Request) {
             },
             culturalPreferences: {
               type: 'array',
-              description: 'The cultural preferences of the trip, i.e. Rolling Stones, Sushi, Vintage, etc.',
+              description:
+                'The cultural preferences of the trip, i.e. Rolling Stones, Sushi, Vintage, etc. (optional - can be empty)',
               items: { type: 'string' },
             },
           },
-          required: ['destination', 'duration', 'isWeekendTrip', 'season', 'travelMood', 'culturalPreferences'],
+          required: ['destination', 'duration', 'isWeekendTrip', 'season', 'travelMood'],
         }),
         execute: async (args: any, options: any) => {
           // Create a trip
