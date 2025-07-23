@@ -28,6 +28,24 @@ export const tripSchema = new mongoose.Schema(
     culturalPreferences: {
       type: [String],
     },
+    qlooTags: {
+      type: [String],
+    },
+    qlooEntities: {
+      type: [String],
+    },
+    coords: {
+      type: {
+        lat: Number,
+        lon: Number,
+      },
+    },
+    itinerary: {
+      type: Object,
+    },
+    weather: {
+      type: Object,
+    },
     status: {
       type: String,
       enum: ['pending', 'processing', 'completed', 'failed'],

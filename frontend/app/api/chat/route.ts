@@ -71,6 +71,7 @@ export async function POST(req: Request) {
             body: JSON.stringify({ ...args, userId }),
           })
 
+          // if the trip is not created, throw an error
           if (!trip.ok) {
             throw new Error('Failed to create trip')
           }

@@ -11,5 +11,5 @@ weather_agent = LlmAgent(
     description="Gets the weather for a given location",
     instruction=prompt.WEATHER_AGENT_PROMPT,
     tools=[get_coordinates_by_location, get_weather_forecast],
-    output_key="weather_payload"
+    output_key="weather"
 )

@@ -4,6 +4,8 @@ import User from '@/models/User'
 import { tripQueue } from '@/queues/trip'
 import { NextRequest, NextResponse } from 'next/server'
 
+export const maxDuration = 300
+
 export async function POST(req: NextRequest) {
   try {
     await connectMongo()

@@ -38,7 +38,13 @@ You must return a JSON object exactly in this structure:
       {
         "entity_id": "<entity_id>",       // This must be exactly as returned by Qloo
         "name": "<entity_name>",
-        "type": "<entity_type>"
+        "type": "<entity_type>",
+        "tags": [{
+          "tag_id": "<tag_id>",
+          "tag_name": "<tag_name>"
+        },
+        ...
+        ]
       },
       ...
     ]

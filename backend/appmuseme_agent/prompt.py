@@ -12,6 +12,8 @@ Each user message will contain:
 4. The season of the trip
 5. The travel mood
 6. The cultural preferences (optional - any number of preferences is acceptable)
+7. Qloo Entities
+8. Qloo Tags
 
 <Process>
 1. Extract the following values from the user message:
@@ -21,21 +23,15 @@ Each user message will contain:
    - `season`: The season of the trip
    - `travelMood`: The travel mood
    - `culturalPreferences`: A list of taste-based interests or cultural signals (e.g., "jazz," "thrift shopping," "noir films," "wine bars") - can be empty or contain any number of preferences
+   - `qlooEntities`: A list of entities from Qloo
+   - `qlooTags`: A list of tags from Qloo
 
 2. Pass these values to the appropriate sub-agents:
    - **Weather Agent**: Get weather forecast for the destination
-   - **Qloo Entity Search Agent**: Search for culturally relevant entities
-   
-   The Qloo Entity Search Agent will receive:
-   - `culturalPreferences`: The list of cultural preferences (can be empty)
-   - `destination`: The destination location
-   - `travelMood`: The travel mood
-   - `season`: The season of the trip
-   - `weather`: Weather forecast from the weather agent
-   - `duration`: Number of days for the trip
-   - `isWeekendTrip`: Whether it's a weekend trip
+   - **Qloo Insights Agent**: Get the Insights from Qloo based on the qlooEntities and qlooTags
 
-3. Compile all sub-agent outputs into a final personalized itinerary with this structure:
+3. Compile all sub-agent outputs into a final personalized itinerary with this structure, gather that from the qloo_insights_agent.
+
 ```json
 {
   "destination": "<Destination city>",
@@ -96,9 +92,8 @@ Each user message will contain:
 
 <Agent Integration Notes>
 - The Weather Agent provides weather forecast data that influences venue and activity recommendations
-- The Qloo Entity Search Agent uses the `search_qloo_entities` tool to find culturally relevant places
+- The Qloo Insights Agent uses the `get_insights` tool to find culturally relevant places
 - All entity recommendations must come from actual Qloo API searches - never invent entities
-- **CRITICAL: The entity_id field in recommendations must come directly from the Qloo API response - do not modify or transform it**
 - The final itinerary should reflect the user's cultural preferences while considering weather and seasonal factors
 - Each day should have at least one recommendation for morning, afternoon, and evening
 - Provide multiple options per time slot when possible to give users choices

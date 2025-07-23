@@ -7,36 +7,20 @@ import { Queue } from 'quirrel/next-app'
 export const tripQueue = Queue('api/queues/trip', async (trip: any) => {
   try {
     await connectMongo()
-    // const pusher = new Pusher({
-    //   appId: process.env.PUSHER_APP_ID!,
-    //   key: process.env.PUSHER_KEY!,
-    //   secret: process.env.PUSHER_SECRET!,
-    //   cluster: 'us2',
-    //   useTLS: true,
-    // })
 
     const response = await processTrip(trip)
 
-    // // find in the Array the author 'ContentPackagerAgent'
-    // const contentPackagerAgent = response?.find((item: any) => item?.author === 'ContentPackagerAgent')
+    const qlooInsightsAgent = response?.find((item: any) => item?.author === 'QlooInsightsAgent')
+    const weatherAgent = response?.find((item: any) => item?.author === 'WeatherAgent')
 
-    // // if there is no contentPackagerAgent, return
-    // if (!contentPackagerAgent) {
-    //   return
-    // }
+    const jsonData = qlooInsightsAgent.content?.parts[0]?.text.replace(/```json\n|```/g, '')
+    const generatedItinerary = JSON.parse(jsonData)
+    const weather = weatherAgent.content?.parts[0]?.text.replace(/```json\n|```/g, '')
+    const weatherJson = JSON.parse(weather)
 
-    // const jsonData = contentPackagerAgent.content?.parts[0]?.text.replace(/```json\n|```/g, '')
-    // const generatedPackage = JSON.parse(jsonData)
-
-    // update the idea with the generated package
-
-    await Trip.findByIdAndUpdate(trip.id, { $set: { status: 'completed' } })
-
-    // pusher.trigger(`task-${trip.id}`, 'task.status.updated', {
-    //   status: 'completed',
-    //   message: 'Trip completed',
-    //   tripId: trip.id,
-    // })
+    await Trip.findByIdAndUpdate(trip.id, {
+      $set: { status: 'completed', itinerary: generatedItinerary, weather: weatherJson },
+    })
 
     console.log('👌 Trip completed', trip.id)
   } catch (error) {
