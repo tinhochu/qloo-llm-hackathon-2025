@@ -23,13 +23,15 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={cn(GeistSans.className, GeistSans.variable, GeistMono.variable, 'antialiased')}>
-          <main>
-            <Suspense>
-              <Header />
-            </Suspense>
-            {children}
-          </main>
+        <body
+          className={cn(
+            GeistSans.className,
+            GeistSans.variable,
+            GeistMono.variable,
+            'antialiased bg-gradient-to-br from-slate-50 to-blue-50'
+          )}
+        >
+          {children}
           <Toaster />
           <Analytics />
         </body>

@@ -1,7 +1,6 @@
 import processTrip from '@/helpers/processTrip'
 import connectMongo from '@/lib/mongoose'
 import Trip from '@/models/Trip'
-import Pusher from 'pusher'
 import { Queue } from 'quirrel/next-app'
 
 export const tripQueue = Queue('api/queues/trip', async (trip: any) => {
@@ -10,20 +9,30 @@ export const tripQueue = Queue('api/queues/trip', async (trip: any) => {
 
     const response = await processTrip(trip)
 
-    const qlooInsightsAgent = response?.find((item: any) => item?.author === 'QlooInsightsAgent')
-    const weatherAgent = response?.find((item: any) => item?.author === 'WeatherAgent')
+    const QlooInsightsAgent = response.find((item: any) => item?.author === 'QlooInsightsAgent')
 
-    const jsonData = qlooInsightsAgent.content?.parts[0]?.text.replace(/```json\n|```/g, '')
-    const generatedItinerary = JSON.parse(jsonData)
-    const weather = weatherAgent.content?.parts[0]?.text.replace(/```json\n|```/g, '')
-    const weatherJson = JSON.parse(weather)
+    const QlooInsightsAgentContent = QlooInsightsAgent?.content?.parts[0]?.text
+
+    // Clean the JSON response by removing markdown code blocks and extra whitespace
+    const QlooResponseCleaned = QlooInsightsAgentContent?.replace(/```json/g, '') // Remove opening ```json
+      ?.replace(/```/g, '') // Remove closing ```
+      ?.replace(/\n/g, '') // Remove newlines
+      ?.trim() // Remove leading/trailing whitespace
+
+    const QlooResponseJson = JSON.parse(QlooResponseCleaned)
 
     await Trip.findByIdAndUpdate(trip.id, {
-      $set: { status: 'completed', itinerary: generatedItinerary, weather: weatherJson },
+      $set: {
+        status: 'completed',
+        itinerary: QlooResponseJson,
+        itineraryText: QlooResponseCleaned,
+      },
     })
 
     console.log('👌 Trip completed', trip.id)
   } catch (error) {
     console.error(`Error processing trip ${trip.id}: ${error}`)
+    // Re-throw the error to return the job to the queue
+    throw error
   }
 })

@@ -43,6 +43,9 @@ export const tripSchema = new mongoose.Schema(
     itinerary: {
       type: Object,
     },
+    itineraryText: {
+      type: String,
+    },
     weather: {
       type: Object,
     },

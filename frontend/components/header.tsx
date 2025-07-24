@@ -12,7 +12,7 @@ export default function Header() {
   const pathname = usePathname()
 
   return (
-    <header className="mx-auto px-4 py-6 flex items-center w-full justify-between">
+    <header className="bg-white mx-auto px-4 py-6 flex items-center w-full justify-between">
       <div className="w-full max-w-2xl mx-auto flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Link href="/">
@@ -44,7 +44,7 @@ export default function Header() {
             </>
           ) : (
             <SignInButton mode="modal">
-              <Button className="gap-2 hover:cursor-pointer">
+              <Button className="gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-medium hover:cursor-pointer">
                 <User size={16} />
                 Sign In
               </Button>

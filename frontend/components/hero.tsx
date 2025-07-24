@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-800">
+    <section className="h-[calc(100vh-88px)] relative overflow-hidden bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-800">
       <div className="absolute inset-0 bg-black/20" />
       <div className="relative container mx-auto px-4 py-24 sm:py-32">
         <div className="text-center">
@@ -32,15 +32,6 @@ export function Hero() {
               <Button size="lg" className="bg-white text-gray-900 hover:bg-gray-100 px-8 py-3 text-lg">
                 Start Planning
                 <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
-            <Link href="/demo">
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-white text-white hover:bg-white/10 px-8 py-3 text-lg bg-transparent"
-              >
-                See Demo
               </Button>
             </Link>
           </div>

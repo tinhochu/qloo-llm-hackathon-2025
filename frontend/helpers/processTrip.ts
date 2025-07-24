@@ -110,13 +110,13 @@ export default async function processTrip(trip: any) {
           parts: [
             {
               text: `Create a trip itinerary for ${trip.destination}.
-              the duration of the trip is ${trip.duration} days.
+              the duration of the trip is ${trip.duration} days, give me the itinerary for all the days of the trip.
               the season of the trip is ${trip.season}.
               the mood of the trip is ${trip.travelMood}.
-              the trip is a ${trip.isWeekendTrip ? 'weekend' : 'week'} trip.
               the cultural preferences of the trip are ${trip.culturalPreferences.join(', ')}.
               the qloo tags of the trip are ${qlooTags.join(', ')}.
               the qloo entities of the trip are ${qlooEntities.join(', ')}.
+              the itinerary should be in JSON format.
               `,
             },
           ],
