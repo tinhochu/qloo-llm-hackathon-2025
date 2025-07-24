@@ -1,9 +1,14 @@
-import { TravelItinerary } from '@/components/travel-itinerary'
+import Map from '@/components/city-map'
+import { CulturalPreferencesBadge } from '@/components/cultural-preferences-badge'
+import GPTTypingEffect from '@/components/gpt-typing-effect'
+import { SeasonBadge } from '@/components/season-badge'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import connectMongo from '@/lib/mongoose'
 import Trip from '@/models/Trip'
 import { ArrowLeft, Loader2 } from 'lucide-react'
+import { Metadata } from 'next'
+import { ResolvingMetadata } from 'next/dist/lib/metadata/types/metadata-interface'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
@@ -45,6 +50,17 @@ function BackButton() {
       Back to Trips
     </Link>
   )
+}
+
+export async function generateMetadata({ params }: TripPageProps, parent: ResolvingMetadata): Promise<Metadata> {
+  const tripId = (await params).tripId
+
+  // fetch post information
+  const post = await getTrip(tripId)
+
+  return {
+    title: `Appmuseme - ${post.destination} for ${post.duration} days`,
+  }
 }
 
 export default async function TripPage({ params }: TripPageProps) {
@@ -139,20 +155,49 @@ export default async function TripPage({ params }: TripPageProps) {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-      <div className="col-span-3">
-        <Card>
+      <div className="col-span-3 flex flex-col gap-4">
+        <div className="text-2xl font-bold">
+          {trip.destination} for {trip.duration} days
+          <div className="flex items-center gap-2 mt-2">
+            <SeasonBadge season={trip.season} />
+            <CulturalPreferencesBadge culturalPreferences={trip.culturalPreferences} />
+          </div>
+        </div>
+        <Card className="p-0 overflow-hidden">
+          <CardContent className="overflow-hidden p-0">
+            <Map lat={trip.coords.lat} lng={trip.coords.lon} />
+          </CardContent>
+        </Card>
+        <Card className="gap-0">
           <CardHeader>
-            <CardTitle className="text-2xl font-bold">
-              {trip.destination} for {trip.duration} days
-            </CardTitle>
+            <CardTitle>Weather</CardTitle>
           </CardHeader>
           <CardContent>
-            <Accordion type="single" collapsible>
+            <GPTTypingEffect text={trip.itinerary.trip_context.weather_forecast} />
+          </CardContent>
+        </Card>
+        <Card className="gap-0">
+          <CardHeader>
+            <CardTitle>Cultural Insights</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <GPTTypingEffect text={trip.itinerary.entity_summary.cultural_insights} />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Itinerary</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Accordion type="single" collapsible defaultValue="item-day-1">
               <div className="text-sm text-gray-500">
                 {trip.itinerary?.itinerary &&
                   Object.entries(trip.itinerary.itinerary).map(([dayTitle, dayData]) => (
-                    <AccordionItem value={`item-${dayTitle}`}>
-                      <AccordionTrigger className="font-semibold text-gray-900 mb-3">{dayTitle}</AccordionTrigger>
+                    <AccordionItem value={`item-${dayTitle.replace(' ', '-').toLowerCase()}`} key={dayTitle}>
+                      <AccordionTrigger className="font-semibold text-gray-900 mb-3 hover:cursor-pointer">
+                        {dayTitle}
+                      </AccordionTrigger>
                       <AccordionContent>
                         {Object.entries(dayData as any).map(([timeSlot, timeData]) => (
                           <div key={timeSlot} className="mb-4">
@@ -166,7 +211,7 @@ export default async function TripPage({ params }: TripPageProps) {
                                 <div className="text-xs text-gray-600">
                                   {rec.type} • {rec.location}
                                 </div>
-                                <div className="text-xs text-gray-700 mt-1">{rec.description}</div>
+                                <GPTTypingEffect text={rec.description} className="text-xs text-gray-600" />
                               </div>
                             ))}
                           </div>
