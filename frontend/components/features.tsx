@@ -34,7 +34,7 @@ export function Features() {
         <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Why Appmuseme Works</h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Most travel platforms push what's popular. We flip the model to show you what you'll actually enjoy.
+            {`Most travel platforms push what's popular. We flip the model to show you what you'll actually enjoy.`}
           </p>
         </div>
 

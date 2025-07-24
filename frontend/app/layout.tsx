@@ -1,7 +1,7 @@
 import Header from '@/components/header'
 import { Toaster } from '@/components/ui/sonner'
 import { cn } from '@/lib/utils'
-import { ClerkProvider, SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
+import { ClerkProvider } from '@clerk/nextjs'
 import { Analytics } from '@vercel/analytics/next'
 import { GeistMono } from 'geist/font/mono'
 import { GeistSans } from 'geist/font/sans'

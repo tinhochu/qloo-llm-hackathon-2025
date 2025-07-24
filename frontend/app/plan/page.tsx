@@ -15,7 +15,7 @@ export default function PlanPage() {
               <h1 className="text-3xl sm:text-3xl font-bold text-gray-900 mb-4">Plan Your Perfect Trip</h1>
               <div className="w-full max-w-md mx-auto">
                 <p className="text-sm text-gray-700 font-mono">
-                  Tell us about your destination and tastes. We'll create a personalized itinerary just for you.
+                  {`Tell us about your destination and tastes. We'll create a personalized itinerary just for you.`}
                 </p>
               </div>
             </div>

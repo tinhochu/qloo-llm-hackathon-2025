@@ -194,9 +194,7 @@ export default function PlanningChat() {
 
                                         return (
                                           <div key={`trip-result-${callId}`}>
-                                            Awesome! I've created a trip for you to{' '}
-                                            {resultInvocation.result?.destination}, {resultInvocation.result?.duration}{' '}
-                                            days. Redirecting you to your trip itinerary...
+                                            {`Awesome! I've created a trip for you to ${resultInvocation.result?.destination}, ${resultInvocation.result?.duration} days. Redirecting you to your trip itinerary...`}
                                             <Loader2 className="h-4 w-4 animate-spin" />
                                           </div>
                                         )

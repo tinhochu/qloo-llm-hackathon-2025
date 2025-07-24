@@ -23,8 +23,8 @@ export function Hero() {
           </h1>
 
           <p className="text-xl text-gray-200 mb-8 max-w-2xl mx-auto">
-            Get personalized travel recommendations based on your unique taste profile. No more generic tourist
-            traps—discover places you'll actually love.
+            {`Get personalized travel recommendations based on your unique taste profile. No more generic tourist
+            traps—discover places you'll actually love.`}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">

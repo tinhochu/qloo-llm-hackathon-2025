@@ -76,7 +76,7 @@ export default async function TripPage({ params }: TripPageProps) {
         <div className="w-full max-w-2xl mx-auto">
           <div className="text-center">
             <h2 className="text-2xl font-semibold text-gray-900 mb-2">Trip Not Found</h2>
-            <p className="text-gray-600 mb-4">The trip you're looking for doesn't exist.</p>
+            <p className="text-gray-600 mb-4">{"The trip you're looking for doesn't exist."}</p>
             <BackButton />
           </div>
         </div>
@@ -95,7 +95,7 @@ export default async function TripPage({ params }: TripPageProps) {
                 Creating Your Perfect {trip.destination} Itinerary
               </h1>
               <p className="text-lg text-gray-600 mb-6">
-                We're analyzing your cultural preferences and crafting a personalized travel experience just for you.
+                {`We're analyzing your cultural preferences and crafting a personalized travel experience just for you.`}
               </p>
               <div className="bg-white rounded-lg p-6 shadow-lg max-w-md mx-auto">
                 <h3 className="font-semibold text-gray-900 mb-3">Trip Details</h3>

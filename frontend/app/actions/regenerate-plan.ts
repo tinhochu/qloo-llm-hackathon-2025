@@ -4,7 +4,6 @@ import connectMongo from '@/lib/mongoose'
 import Trip from '@/models/Trip'
 import { tripQueue } from '@/queues/trip'
 import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
 
 export async function regeneratePlan(formData: FormData) {
   try {

@@ -64,7 +64,7 @@ export default function SignInPage() {
 
           {/* What You Get */}
           <div className="mt-8">
-            <h3 className="text-white font-semibold mb-4 text-center">What you'll get:</h3>
+            <h3 className="text-white font-semibold mb-4 text-center">{"What you'll get:"}</h3>
             <div className="space-y-3 text-white/90">
               <div className="flex items-center gap-3">
                 <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>

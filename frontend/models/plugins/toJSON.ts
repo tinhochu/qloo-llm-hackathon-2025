@@ -21,8 +21,8 @@ const toJSON = <T extends Document>(schema: Schema<T>) => {
         ret.id = ret._id.toString()
       }
 
-      delete ret._id
-      delete ret.__v
+      delete (ret as any)._id
+      delete (ret as any).__v
     },
   })
 }

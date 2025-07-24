@@ -2,11 +2,12 @@ import connectMongo from '@/lib/mongoose'
 import Trip from '@/models/Trip'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(req: NextRequest, { params }: { params: { tripId: string } }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ tripId: string }> }) {
   try {
     await connectMongo()
 
-    const trip = await Trip.findById(params.tripId)
+    const { tripId } = await params
+    const trip = await Trip.findById(tripId)
 
     if (!trip) {
       return NextResponse.json({ error: 'Trip not found' }, { status: 404 })

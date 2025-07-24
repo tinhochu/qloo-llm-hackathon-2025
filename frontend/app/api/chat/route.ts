@@ -7,7 +7,7 @@ import { prompt } from './.prompt'
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30
 
-export function errorHandler(error: unknown) {
+function errorHandler(error: unknown) {
   if (error == null) {
     return 'unknown error'
   }
