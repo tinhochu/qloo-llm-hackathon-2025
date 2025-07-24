@@ -1,8 +1,10 @@
+import { regeneratePlan } from '@/app/actions'
 import Map from '@/components/city-map'
 import { CulturalPreferencesBadge } from '@/components/cultural-preferences-badge'
 import GPTTypingEffect from '@/components/gpt-typing-effect'
 import { SeasonBadge } from '@/components/season-badge'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import connectMongo from '@/lib/mongoose'
 import Trip from '@/models/Trip'
@@ -82,85 +84,97 @@ export default async function TripPage({ params }: TripPageProps) {
     )
   }
 
-  // if (trip.status === 'pending' || trip.status === 'processing') {
-  //   return (
-  //     <div className="h-[calc(100vh-88px)] bg-gradient-to-br from-slate-50 to-blue-50">
-  //       <div className="w-full max-w-2xl mx-auto">
-  //         <div className="container mx-auto px-4 py-8">
-  //           <BackButton />
+  if (trip.status === 'pending' || trip.status === 'processing') {
+    return (
+      <div className="h-[calc(100vh-88px)] bg-gradient-to-br from-slate-50 to-blue-50">
+        <div className="w-full max-w-2xl mx-auto">
+          <div className="container mx-auto px-4 py-8">
+            <div className="max-w-4xl mx-auto text-center">
+              <Loader2 className="h-16 w-16 animate-spin text-indigo-600 mx-auto mb-6" />
+              <h1 className="text-3xl font-bold text-gray-900 mb-4">
+                Creating Your Perfect {trip.destination} Itinerary
+              </h1>
+              <p className="text-lg text-gray-600 mb-6">
+                We're analyzing your cultural preferences and crafting a personalized travel experience just for you.
+              </p>
+              <div className="bg-white rounded-lg p-6 shadow-lg max-w-md mx-auto">
+                <h3 className="font-semibold text-gray-900 mb-3">Trip Details</h3>
+                <div className="space-y-2 text-sm text-gray-600">
+                  <p>
+                    <strong>Destination:</strong> {trip.destination}
+                  </p>
+                  <p>
+                    <strong>Duration:</strong> {trip.duration}
+                  </p>
+                  <p>
+                    <strong>Mood:</strong> {trip.travelMood}
+                  </p>
+                  <p>
+                    <strong>Season:</strong> {trip.season}
+                  </p>
+                  <p>
+                    <strong>Interests:</strong> {trip.culturalPreferences.join(', ')}
+                  </p>
+                </div>
+              </div>
+              <p className="text-sm text-gray-500 mt-6">
+                This usually takes a few minutes. You can refresh the page to check the status.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
-  //           <div className="max-w-4xl mx-auto text-center">
-  //             <Loader2 className="h-16 w-16 animate-spin text-indigo-600 mx-auto mb-6" />
-  //             <h1 className="text-3xl font-bold text-gray-900 mb-4">
-  //               Creating Your Perfect {trip.destination} Itinerary
-  //             </h1>
-  //             <p className="text-lg text-gray-600 mb-6">
-  //               We're analyzing your cultural preferences and crafting a personalized travel experience just for you.
-  //             </p>
-  //             <div className="bg-white rounded-lg p-6 shadow-lg max-w-md mx-auto">
-  //               <h3 className="font-semibold text-gray-900 mb-3">Trip Details</h3>
-  //               <div className="space-y-2 text-sm text-gray-600">
-  //                 <p>
-  //                   <strong>Destination:</strong> {trip.destination}
-  //                 </p>
-  //                 <p>
-  //                   <strong>Duration:</strong> {trip.duration}
-  //                 </p>
-  //                 <p>
-  //                   <strong>Mood:</strong> {trip.travelMood}
-  //                 </p>
-  //                 <p>
-  //                   <strong>Season:</strong> {trip.season}
-  //                 </p>
-  //                 <p>
-  //                   <strong>Interests:</strong> {trip.culturalPreferences.join(', ')}
-  //                 </p>
-  //               </div>
-  //             </div>
-  //             <p className="text-sm text-gray-500 mt-6">
-  //               This usually takes a few minutes. You can refresh the page to check the status.
-  //             </p>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   )
-  // }
+  // Show error state if trip failed
+  if (trip.status === 'failed') {
+    return (
+      <div className="h-[calc(100vh-88px)] bg-gradient-to-br from-slate-50 to-blue-50">
+        <div className="w-full max-w-2xl mx-auto">
+          <div className="container mx-auto px-4 py-8">
+            <BackButton />
 
-  // // Show error state if trip failed
-  // if (trip.status === 'failed') {
-  //   return (
-  //     <div className="h-[calc(100vh-88px)] bg-gradient-to-br from-slate-50 to-blue-50">
-  //       <div className="w-full max-w-2xl mx-auto">
-  //         <div className="container mx-auto px-4 py-8">
-  //           <BackButton />
-
-  //           <div className="max-w-4xl mx-auto text-center">
-  //             <h1 className="text-3xl font-bold text-gray-900 mb-4">Trip Creation Failed</h1>
-  //             <p className="text-lg text-gray-600 mb-6">
-  //               We encountered an issue while creating your itinerary. Please try planning a new trip.
-  //             </p>
-  //             <Link
-  //               href="/trips"
-  //               className="inline-flex items-center px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
-  //             >
-  //               Back to Trips
-  //             </Link>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   )
-  // }
+            <div className="max-w-4xl mx-auto text-center">
+              <h1 className="text-3xl font-bold text-gray-900 mb-4">Trip Creation Failed</h1>
+              <p className="text-lg text-gray-600 mb-6">
+                We encountered an issue while creating your itinerary. Please try planning a new trip.
+              </p>
+              <Link
+                href="/trips"
+                className="inline-flex items-center px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+              >
+                Back to Trips
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
       <div className="col-span-3 flex flex-col gap-4">
-        <div className="text-2xl font-bold">
-          {trip.destination} for {trip.duration} days
-          <div className="flex items-center gap-2 mt-2">
-            <SeasonBadge season={trip.season} />
-            <CulturalPreferencesBadge culturalPreferences={trip.culturalPreferences} />
+        <div className="flex flex-col lg:grid lg:grid-cols-3 lg:flex-row gap-2">
+          <div className="col-span-1 lg:col-span-2">
+            <div className="text-2xl font-bold">
+              {trip.destination} for {trip.duration} days
+              <div className="flex items-center gap-2 mt-2">
+                <SeasonBadge season={trip.season} />
+                <CulturalPreferencesBadge culturalPreferences={trip.culturalPreferences} />
+              </div>
+            </div>
+          </div>
+          <div className="col-span-1">
+            <div className="flex items-center lg:justify-end gap-2">
+              <form action={regeneratePlan}>
+                <input type="hidden" name="tripId" value={tripId} />
+                <Button size="sm" variant="outline">
+                  Regenerate
+                </Button>
+              </form>
+            </div>
           </div>
         </div>
         <Card className="p-0 overflow-hidden">
@@ -203,15 +217,15 @@ export default async function TripPage({ params }: TripPageProps) {
                           <div key={timeSlot} className="mb-4">
                             <h4 className="font-medium text-gray-900 mb-2 capitalize">{timeSlot}</h4>
                             {(timeData as any)?.recommendations?.map((rec: any, index: number) => (
-                              <div key={index} className="ml-4 mb-2 p-2 bg-gray-100 rounded">
-                                <div className="text-lg font-semibold">
+                              <div key={index} className="ml-4 mb-2 p-2 bg-gray-100 rounded gap-2 flex flex-col">
+                                <div className="text-lg font-semibold text-gray-900">
                                   {rec.type === 'restaurant' && '🍽️'} {rec.type === 'attraction' && '🏛️'}{' '}
                                   {rec.type === 'venue' && '🎹'} {rec.name}
                                 </div>
-                                <div className="text-xs text-gray-600">
+                                <div className="text-xs text-gray-700">
                                   {rec.type} • {rec.location}
                                 </div>
-                                <GPTTypingEffect text={rec.description} className="text-xs text-gray-600" />
+                                <p className="text-gray-800">{rec.description}</p>
                               </div>
                             ))}
                           </div>
