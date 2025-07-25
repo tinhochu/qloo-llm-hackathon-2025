@@ -196,7 +196,7 @@ export default async function TripPage({ params }: TripPageProps) {
             <CardTitle>Weather</CardTitle>
           </CardHeader>
           <CardContent>
-            <GPTTypingEffect text={trip.itinerary.trip_context.weather_forecast} />
+            <GPTTypingEffect text={trip?.itinerary?.trip_context?.weather_forecast} />
           </CardContent>
         </Card>
         <Card className="gap-0">
@@ -204,7 +204,7 @@ export default async function TripPage({ params }: TripPageProps) {
             <CardTitle>Cultural Insights</CardTitle>
           </CardHeader>
           <CardContent>
-            <GPTTypingEffect text={trip.itinerary.entity_summary.cultural_insights} />
+            <GPTTypingEffect text={trip?.itinerary?.entity_summary?.cultural_insights} />
           </CardContent>
         </Card>
 
@@ -214,35 +214,98 @@ export default async function TripPage({ params }: TripPageProps) {
           </CardHeader>
           <CardContent>
             <Accordion type="single" collapsible defaultValue="item-day-1">
-              <div className="text-sm text-gray-500">
-                {trip.itinerary?.itinerary &&
-                  Object.entries(trip.itinerary.itinerary).map(([dayTitle, dayData]) => (
-                    <AccordionItem value={`item-${dayTitle.replace(' ', '-').toLowerCase()}`} key={dayTitle}>
-                      <AccordionTrigger className="font-semibold text-gray-900 mb-3 hover:cursor-pointer">
-                        {dayTitle}
-                      </AccordionTrigger>
-                      <AccordionContent>
-                        {Object.entries(dayData as any).map(([timeSlot, timeData]) => (
-                          <div key={timeSlot} className="mb-4">
-                            <h4 className="font-medium text-gray-900 mb-2 capitalize">{timeSlot}</h4>
-                            {(timeData as any)?.recommendations?.map((rec: any, index: number) => (
-                              <div key={index} className="ml-4 mb-2 p-2 bg-gray-100 rounded gap-2 flex flex-col">
-                                <div className="text-lg font-semibold text-gray-900">
-                                  {rec.type === 'restaurant' && '🍽️'} {rec.type === 'attraction' && '🏛️'}{' '}
-                                  {rec.type === 'venue' && '🎹'} {rec.name}
+              {trip.itinerary?.itinerary &&
+                Object.entries(trip.itinerary.itinerary).map(([dayTitle, dayData]) => (
+                  <AccordionItem value={`item-${dayTitle.replace(' ', '-').toLowerCase()}`} key={dayTitle}>
+                    <AccordionTrigger className="font-semibold text-gray-900 mb-3 hover:cursor-pointer">
+                      {dayTitle}
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="space-y-4">
+                        {(dayData as any[]).map((item, index) => (
+                          <div key={index} className="border-l-4 border-indigo-200 pl-4 py-2">
+                            <div className="flex items-center gap-2 mb-2">
+                              <span className="text-sm font-medium text-indigo-600 bg-indigo-50 px-2 py-1 rounded">
+                                {item.time}
+                              </span>
+                            </div>
+                            {item.recommendation && (
+                              <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+                                <div className="flex items-start gap-3">
+                                  <div className="text-2xl">
+                                    {item.recommendation.type === 'restaurant' && '🍽️'}
+                                    {item.recommendation.type === 'attraction' && '🏛️'}
+                                    {item.recommendation.type === 'venue' && '🎹'}
+                                    {item.recommendation.type === 'hotel' && '🏨'}
+                                    {item.recommendation.type === 'activity' && '🎯'}
+                                  </div>
+                                  <div className="flex-1">
+                                    <h4 className="text-lg font-semibold text-gray-900 mb-1">
+                                      {item.recommendation.name}
+                                    </h4>
+                                    <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
+                                      <span className="capitalize">{item.recommendation.type}</span>
+                                      <span>•</span>
+                                      <span>{item.recommendation.location}</span>
+                                      {item.recommendation.rating && (
+                                        <>
+                                          <span>•</span>
+                                          <span className="flex items-center gap-1">
+                                            ⭐ {item.recommendation.rating}
+                                          </span>
+                                        </>
+                                      )}
+                                    </div>
+                                    <p className="text-gray-700 mb-3">{item.recommendation.description}</p>
+
+                                    {item.recommendation.cultural_match &&
+                                      item.recommendation.cultural_match.length > 0 && (
+                                        <div className="mb-3">
+                                          <span className="text-sm font-medium text-gray-600">Cultural Match:</span>
+                                          <div className="flex flex-wrap gap-1 mt-1">
+                                            {item.recommendation.cultural_match.map(
+                                              (match: string, matchIndex: number) => (
+                                                <span
+                                                  key={matchIndex}
+                                                  className="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full"
+                                                >
+                                                  {match}
+                                                </span>
+                                              )
+                                            )}
+                                          </div>
+                                        </div>
+                                      )}
+
+                                    {item.recommendation.why_recommended && (
+                                      <div className="mb-3">
+                                        <span className="text-sm font-medium text-gray-600">Why Recommended:</span>
+                                        <p className="text-sm text-gray-700 mt-1">
+                                          {item.recommendation.why_recommended}
+                                        </p>
+                                      </div>
+                                    )}
+
+                                    {item.recommendation.weather_consideration && (
+                                      <div>
+                                        <span className="text-sm font-medium text-gray-600">
+                                          Weather Consideration:
+                                        </span>
+                                        <p className="text-sm text-gray-700 mt-1">
+                                          {item.recommendation.weather_consideration}
+                                        </p>
+                                      </div>
+                                    )}
+                                  </div>
                                 </div>
-                                <div className="text-xs text-gray-700">
-                                  {rec.type} • {rec.location}
-                                </div>
-                                <p className="text-gray-800">{rec.description}</p>
                               </div>
-                            ))}
+                            )}
                           </div>
                         ))}
-                      </AccordionContent>
-                    </AccordionItem>
-                  ))}
-              </div>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
             </Accordion>
           </CardContent>
         </Card>
