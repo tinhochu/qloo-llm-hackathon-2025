@@ -52,6 +52,7 @@ const getQlooEntities = async (trip: any, coords: { lat: number; lon: number }):
     )
 
     const data = await response.json()
+
     return data?.results || []
   })
 
@@ -74,42 +75,25 @@ export default async function processTrip(trip: any) {
     // get the qloo tags
     const qlooTags = await getQlooTags(trip)
 
+    // get the qloo entities
     const qlooEntities = await getQlooEntities(trip, coords)
 
     // update the trip with the qloo tags
-    const updatedTrip = await Trip.findByIdAndUpdate(trip.id, {
+    await Trip.findByIdAndUpdate(trip.id, {
       $set: { qlooTags, qlooEntities, coords: { lat: coords.lat, lon: coords.lon } },
     })
 
-    // create the session
-    const responseSession = await fetch(
-      `${process.env.API_AGENT_URL!}/apps/appmuseme_agent/users/u_${trip?.userId?.toString()}/sessions/s_${updatedTrip?._id?.toString()}_${Date.now()}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    )
-
-    // get the data
-    const dataSession = await responseSession.json()
-
     // run the idea
-    const response = await fetch(`${process.env.API_AGENT_URL!}/run`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL!}/api/qloo/insights`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        appName: 'appmuseme_agent',
-        userId: dataSession.userId,
-        sessionId: dataSession.id,
-        newMessage: {
-          role: 'user',
-          parts: [
-            {
-              text: `Create a trip itinerary for ${trip.destination}.
+        messages: [
+          {
+            role: 'user',
+            content: `Create a trip itinerary for ${trip.destination}.
               the duration of the trip is ${trip.duration} days, give me the itinerary for all the days of the trip.
               the season of the trip is ${trip.season}.
               the mood of the trip is ${trip.travelMood}.
@@ -118,16 +102,22 @@ export default async function processTrip(trip: any) {
               the qloo entities of the trip are ${qlooEntities.join(', ')}.
               the itinerary should be in JSON format.
               `,
-            },
-          ],
-        },
+          },
+        ],
       }),
     })
 
+    if (!response.ok) {
+      throw new Error('Failed to get insights')
+    }
+
     const data = await response.json()
+
+    console.log('👌 Data', data)
 
     return data
   } catch (error) {
     console.error(error)
+    throw error
   }
 }

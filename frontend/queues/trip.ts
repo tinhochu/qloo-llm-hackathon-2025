@@ -9,23 +9,20 @@ export const tripQueue = Queue('api/queues/trip', async (trip: any) => {
 
     const response = await processTrip(trip)
 
-    const QlooInsightsAgent = response.find((item: any) => item?.author === 'QlooInsightsAgent')
-
-    const QlooInsightsAgentContent = QlooInsightsAgent?.content?.parts[0]?.text
-
     // Clean the JSON response by removing markdown code blocks and extra whitespace
-    const QlooResponseCleaned = QlooInsightsAgentContent?.replace(/```json/g, '') // Remove opening ```json
+    const itineraryText = response?.text
+      ?.replace(/```json/g, '') // Remove opening ```json
       ?.replace(/```/g, '') // Remove closing ```
       ?.replace(/\n/g, '') // Remove newlines
       ?.trim() // Remove leading/trailing whitespace
 
-    const QlooResponseJson = JSON.parse(QlooResponseCleaned)
+    const itinerary = JSON.parse(itineraryText)
 
     await Trip.findByIdAndUpdate(trip.id, {
       $set: {
         status: 'completed',
-        itinerary: QlooResponseJson,
-        itineraryText: QlooResponseCleaned,
+        itinerary,
+        itineraryText: response.text,
       },
     })
 

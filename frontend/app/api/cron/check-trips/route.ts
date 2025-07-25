@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     // if there is no ideas, return
     if (!trips || trips.length === 0) return Response.json({ success: true }, { status: 200 })
 
-    console.log(`Enqueuing ${trips.length} trips...`)
+    console.log(`Enqueuing ${trips.length} trip${trips.length > 1 ? 's' : ''}...`)
     // for each trip, check if the trip is older than 1 hour
     for (const trip of trips) {
       const tripData = trip.toJSON()

@@ -7,6 +7,9 @@ const isPublicRoute = createRouteMatcher([
   '/api/trip',
   '/api/queues/trip',
   '/api/cron/check-trips',
+  '/api/chat',
+  '/api/qloo',
+  '/api/qloo/insights',
 ])
 
 export default clerkMiddleware(async (auth, req) => {

@@ -1,11 +1,15 @@
+import connectMongo from '@/lib/mongoose'
+import Trip from '@/models/Trip'
+import User from '@/models/User'
+import { tripQueue } from '@/queues/trip'
 import { google } from '@ai-sdk/google'
 import { auth } from '@clerk/nextjs/server'
 import { jsonSchema, streamText, tool } from 'ai'
 
 import { prompt } from './.prompt'
 
-// Allow streaming responses up to 30 seconds
-export const maxDuration = 30
+// Allow streaming responses up to 5 minutes
+export const maxDuration = 300
 
 function errorHandler(error: unknown) {
   if (error == null) {
@@ -31,6 +35,7 @@ export async function POST(req: Request) {
     model: google('gemini-2.0-flash-001'),
     system: prompt,
     messages,
+    maxSteps: 10,
     tools: {
       askForConfirmation: {
         description: 'Ask the user for confirmation.',
@@ -65,20 +70,19 @@ export async function POST(req: Request) {
           required: ['destination', 'duration', 'isWeekendTrip', 'season', 'travelMood'],
         }),
         execute: async (args: any, options: any) => {
-          // Create a trip
-          const trip = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/trip`, {
-            method: 'POST',
-            body: JSON.stringify({ ...args, userId }),
-          })
+          await connectMongo()
+          const userObject = await User.findOne({ clerkId: userId })
 
-          // if the trip is not created, throw an error
-          if (!trip.ok) {
-            throw new Error('Failed to create trip')
-          }
+          // create the trip
+          const tripObject = await Trip.create({ userId: userObject._id, ...args })
 
-          const data = await trip.json()
+          // convert the trip to a JSON object
+          const trip = await tripObject.toJSON()
 
-          return data
+          // enqueue the trip
+          await tripQueue.enqueue(trip)
+
+          return trip
         },
       }),
     },
