@@ -23,6 +23,10 @@ export async function POST(req: NextRequest) {
           return NextResponse.json({ message: 'User already exists' }, { status: 200 })
         }
 
+        if (!data.email_addresses[0].email_address) {
+          return NextResponse.json({ message: 'Email not found' }, { status: 200 })
+        }
+
         // Create a new user in our database
         const newUser = new User({
           email: data.email_addresses[0].email_address,
@@ -52,6 +56,6 @@ export async function POST(req: NextRequest) {
     }
   } catch (error) {
     console.error(error)
-    return NextResponse.json({ message: 'Error' }, { status: 500 })
+    return NextResponse.json({ message: 'Error: ' + error }, { status: 500 })
   }
 }
