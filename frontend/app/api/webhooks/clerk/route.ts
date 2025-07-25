@@ -23,6 +23,10 @@ export async function POST(req: NextRequest) {
           return NextResponse.json({ message: 'User already exists' }, { status: 200 })
         }
 
+        if (!data.email_addresses) {
+          return NextResponse.json({ message: 'Email not found' }, { status: 200 })
+        }
+
         if (!data.email_addresses[0].email_address) {
           return NextResponse.json({ message: 'Email not found' }, { status: 200 })
         }
