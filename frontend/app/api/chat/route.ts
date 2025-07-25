@@ -82,7 +82,10 @@ export async function POST(req: Request) {
           // enqueue the trip
           await tripQueue.enqueue(trip)
 
-          return trip
+          return {
+            ...trip,
+            tripId: tripObject.id,
+          }
         },
       }),
     },
