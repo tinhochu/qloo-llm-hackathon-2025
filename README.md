@@ -1,6 +1,9 @@
+![License](https://img.shields.io/github/license/tinhochu/qloo-llm-hackathon-2025) ![Last Commit](https://img.shields.io/github/last-commit/tinhochu/qloo-llm-hackathon-2025) [![Website](https://img.shields.io/website?url=https%3A%2F%appmuseme.vercel.app)](https://appmuse.vercel.app) ![React](https://img.shields.io/badge/Frontend-React-blue?logo=react)
+![Vercel](https://img.shields.io/badge/Hosting-Vercel-blue) ![Next.js](https://img.shields.io/badge/Framework-Next.js-000?logo=next.js) ![Tailwind CSS](https://img.shields.io/badge/Styling-TailwindCSS-38B2AC?logo=tailwind-css) [![Code Style: Prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://prettier.io/) ![Clerk](https://img.shields.io/badge/Authentication-Clerk-blue?logo=clerk) ![MongoDB](https://img.shields.io/badge/Database-MongoDB-blue?logo=mongodb) ![Mongoose](https://img.shields.io/badge/Database-Mongoose-blue?logo=mongoose) ![Google Gemini](https://img.shields.io/badge/AI-Google%20Gemini-blue?logo=google-gemini)
+
 ![Banner Image](https://github.com/user-attachments/assets/7104e150-eaf6-4d8b-aabe-a6ba614a6810)
 
-# Qloo LLM Hackathon
+# Appmuseme – Qloo LLM Hackathon
 
 ## Author
 
@@ -11,19 +14,24 @@
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Tin_Ho_Chu-blue?logo=linkedIn)](https://linkedin.com/in/tinhochu)  
 [![Twitter](https://img.shields.io/badge/@tinhochu-000000?logo=x)](https://x.com/tinhochu)
 
----
-
 ## 🎥 Demo Video
 
----
+<!-- Insert demo video link once uploaded -->
 
 ## 🚀 Project Overview
 
----
+**Appmuseme** is a culturally intelligent travel assistant that helps users plan unforgettable trips based on their unique tastes in music, food, books, fashion, and more — not just social media trends.
+
+By combining Qloo’s Taste AI with Google Gemini and a lightweight frontend architecture, Appmuseme builds day-by-day itineraries aligned with who you are, not just where you’re going.
 
 ## 🧠 Features & Functionality
 
----
+- ✈️ Taste-powered travel itinerary builder
+- 🧬 AI parses your input into structured cultural preferences
+- 🌐 Uses Qloo’s cross-domain taste graph to fetch experiences
+- 📍 Suggests hyper-personalized venues, neighborhoods, and events
+- 🎶 Generates playlists, reading lists, and city vibe maps
+- ⚡ Fast, single-layer architecture using only frontend + LLM
 
 ## 🛠️ Technology Stack
 
@@ -32,117 +40,116 @@
 - [Next.js](https://nextjs.org)
 - [TailwindCSS](https://tailwindcss.com)
 - [Shadcn UI](https://ui.shadcn.com)
-
-### Backend
-
-- [MongoDB](https://www.mongodb.com/)
-- [Google ADK (Agent Development Kit)](https://github.com/google/agent-development-kit)
+- [Vercel AI SDK](https://vercel.com/blog/introducing-the-vercel-ai-sdk)
 
 ### APIs & AI Models
 
 - [Google Gemini](https://developers.google.com/gemini)
-
----
+- [Qloo Taste AI](https://qloo.com/)
+- Optional: [OpenWeather API](https://openweathermap.org/) for weather-based day planning
 
 ## 📡 Installation & Setup
 
 1. Clone the repo
+
 2. Set up your environment variables:
 
    ```bash
-   # Copy the example environment file
-   cp backend/env.example backend/.env
+   cp .env.example .env
 
-   # Edit the .env file with your API keys
-   # You'll need:
-   # - QLOO_API_KEY: Your Qloo API key
-   # - QLOO_API_URL: Qloo API base URL (usually https://api.qloo.com/v1)
-   # - OPENWEATHER_API_KEY: Your OpenWeather API key
-   # - RAPID_API_KEY: Your RapidAPI key (for TikTok music trends)
-
+   # Add your API keys:
+   # - QLOO_API_KEY
+   # - QLOO_API_URL
+   # - GEMINI_API_KEY
    ```
 
-3. Test your API connections:
-
+3. Install dependencies and run:
    ```bash
-   cd backend
-   python test_qloo_api.py
+   pnpm install
+   pnpm dev
    ```
-
-4. Install dependencies:
-
-   ```bash
-   # Backend dependencies
-   cd backend
-   pip install -r requirements.txt
-
-   # Frontend dependencies
-   cd ../frontend
-   npm install
-   ```
-
----
 
 ## 🧠 Inspiration
 
-Creators are overwhelmed by the daily pressure to ideate, write, and stay on-trend. I wanted to build an AI-powered team that could take care of everything before hitting record.
+We wanted to reimagine how people travel — not by search trends or tourist traps, but by what they actually love. Our inspiration came from the question:
 
----
+_"What if you could plan a trip based on your taste in music, books, and style — instead of Tripadvisor rankings?"_
+
+**With Qloo's cultural graph and modern LLMs, that vision became real.**
 
 ## ⚙️ How I Built It
 
-- Multi-agent architecture using Google ADK primitives
-- Frontend interface built in Next.js with Tailwind and Shadcn UI
+Built entirely in Next.js using Vercel AI SDK to interface directly with Google Gemini
 
----
+Custom prompts parse user taste input and call the Qloo API for culturally-aligned discovery
 
-## ❗ Challenges I Ran Into
+Results are synthesized into a structured itinerary based on user intent and taste
 
----
+## ❗ Challenges We Ran Into
+
+- Tuning prompts to extract structured cultural preferences from freeform input
+
+- Mapping broad Qloo recommendations into localized, day-by-day suggestions
+
+- Handling edge cases where user tastes or destinations lacked direct Qloo matches
+
+- Designing a frontend that feels personal, smart, and easy to use
 
 ## ✅ Accomplishments That I'm Proud Of
 
----
+Designed a taste-first travel planning experience using just frontend and LLMs
+
+Integrated real cultural intelligence from Qloo into a production-grade app
+
+Delivered a complete end-to-end travel planner powered by AI and taste graphs
+
+Created a UX that helps users feel seen — not just served generic suggestions
 
 ## 📚 What I Learned
 
----
+- How to design LLM prompts that reflect taste, mood, and personality
+
+- How Qloo’s API works across domains (e.g. music to food to neighborhoods)
+
+- Why simplicity in architecture (LLM + frontend) can outperform full backend systems for certain flows
+
+- How to fuse design + data for culturally meaningful results
 
 ## 🔮 What's Next for Appmuseme
 
----
+- 👫 Group trip planning (merge tastes from multiple users)
+
+- 🧳 Taste-based destination suggestions: “Where should I go based on who I am?”
+
+- 🌐 Add neighborhood intelligence with Mapbox or Google Places
+
+- 📱 Launch iOS/Android PWA version
+
+- 💼 Explore partnerships with travel apps or cultural brands
 
 ## 🔧 Troubleshooting
 
 ### Common Issues
 
-**Qloo API returning empty results:**
+Qloo API returning empty results:
 
-- Check that `QLOO_API_KEY` and `QLOO_API_URL` are set correctly
-- Verify your API key has the necessary permissions
-- Run `python test_qloo_api.py` to test connectivity
-- Check the API documentation for any recent changes
+- Check that QLOO_API_KEY and QLOO_API_URL are correct
 
-**OpenTelemetry context errors:**
+- Confirm that your taste terms exist within Qloo’s domain taxonomy
 
-- These are usually harmless and related to the Google ADK framework
-- They don't affect the core functionality of the application
-- Can be ignored unless they're causing other issues
+Gemini failing to return structured results:
 
-**Agent not finding entities:**
+- Review and refine your system prompt
 
-- Ensure cultural preferences are being passed correctly
-- Check that the destination is valid and geocodable
-- Verify that the Qloo API is returning results for your test queries
+- Ensure inputs are clearly separating destination, tastes, and mood
 
 ### Getting Help
 
-1. Run the test script: `python test_qloo_api.py`
-2. Check the debug logs in your console
-3. Verify your environment variables are set correctly
-4. Ensure you have valid API keys with proper permissions
+1. Review prompt logs (if debugging is enabled)
 
----
+1. Check browser console logs for API response issues
+
+1. Ensure API keys are valid and active
 
 ## 📝 License
 
