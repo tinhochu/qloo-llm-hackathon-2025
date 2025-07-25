@@ -8,11 +8,13 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import connectMongo from '@/lib/mongoose'
 import Trip from '@/models/Trip'
+import User from '@/models/User'
+import { auth } from '@clerk/nextjs/server'
 import { ArrowLeft, Loader2 } from 'lucide-react'
 import { Metadata } from 'next'
 import { ResolvingMetadata } from 'next/dist/lib/metadata/types/metadata-interface'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 
 interface Trip {
   id: string
@@ -67,8 +69,15 @@ export async function generateMetadata({ params }: TripPageProps, parent: Resolv
 
 export default async function TripPage({ params }: TripPageProps) {
   const { tripId } = await params
+  const { userId } = await auth()
 
+  const UserObject = await User.findOne({ clerkId: userId })
+  const user = UserObject?.toJSON()
   const trip = await getTrip(tripId)
+
+  if (trip.userId.toString() !== user.id.toString()) {
+    redirect('/plan')
+  }
 
   if (!trip) {
     return (
