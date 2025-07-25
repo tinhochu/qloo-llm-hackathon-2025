@@ -89,7 +89,7 @@ export default function PlanningChat() {
 
       {/* Messages Area */}
       <div className="flex-1 overflow-hidden">
-        <ScrollArea ref={scrollAreaRef} className="h-[28rem] px-4 py-6">
+        <ScrollArea ref={scrollAreaRef} className="h-[28rem] p-4">
           <div className="max-w-4xl mx-auto space-y-6">
             {messages.map((message) => (
               <div
