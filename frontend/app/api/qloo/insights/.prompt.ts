@@ -94,4 +94,5 @@ Include:
 - Use weather and mood to adjust indoor/outdoor or high/low energy recommendations
 - Ensure 2-hour time slots for each activity and avoid overlapping times
 - Compile results across multiple filter types for a well-rounded itinerary
+- **IMPORTANT**: Do not invent or generate entity_id values - all entity_id values must come directly from the Qloo API results. Only include entities that are returned by the getInsights tool.
 `

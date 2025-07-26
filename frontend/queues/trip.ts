@@ -1,11 +1,28 @@
 import processTrip from '@/helpers/processTrip'
 import connectMongo from '@/lib/mongoose'
 import Trip from '@/models/Trip'
+import Pusher from 'pusher'
 import { Queue } from 'quirrel/next-app'
 
 export const tripQueue = Queue('api/queues/trip', async (trip: any) => {
   try {
     await connectMongo()
+    const pusher = new Pusher({
+      appId: process.env.PUSHER_APP_ID!,
+      key: process.env.PUSHER_KEY!,
+      secret: process.env.PUSHER_SECRET!,
+      cluster: process.env.PUSHER_CLUSTER!,
+      useTLS: true,
+    })
+
+    pusher.trigger(`trip-${trip.id}`, 'trip.status.updated', {
+      status: 'processing',
+      message: 'Trip processing',
+      tripId: trip.id,
+    })
+
+    // Update the trip status to processing
+    await Trip.findByIdAndUpdate(trip.id, { $set: { status: 'processing' } })
 
     const response = await processTrip(trip)
 
@@ -22,8 +39,14 @@ export const tripQueue = Queue('api/queues/trip', async (trip: any) => {
       $set: {
         status: 'completed',
         itinerary,
-        itineraryText: response.text,
       },
+    })
+
+    // Update the trip status to completed
+    pusher.trigger(`trip-${trip.id}`, 'trip.status.updated', {
+      status: 'completed',
+      message: 'Trip completed',
+      tripId: trip.id,
     })
 
     console.log('👌 Trip completed', trip.id)

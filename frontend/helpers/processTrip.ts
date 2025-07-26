@@ -113,8 +113,6 @@ export default async function processTrip(trip: any) {
 
     const data = await response.json()
 
-    console.log('👌 Data', data)
-
     return data
   } catch (error) {
     console.error(error)

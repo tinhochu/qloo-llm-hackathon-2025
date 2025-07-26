@@ -21,6 +21,19 @@ const toJSON = <T extends Document>(schema: Schema<T>) => {
         ret.id = ret._id.toString()
       }
 
+      if ((ret as any).userId) {
+        ;(ret as any).userId = (ret as any).userId.toString()
+      }
+
+      if ((ret as any).coords) {
+        ;(ret as any).coords = {
+          lat: (ret as any).coords.lat,
+          lon: (ret as any).coords.lon,
+        } as any
+        delete (ret as any).coords._id
+        delete (ret as any).coords.__v
+      }
+
       delete (ret as any)._id
       delete (ret as any).__v
     },
