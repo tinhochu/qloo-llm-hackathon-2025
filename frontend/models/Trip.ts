@@ -54,6 +54,9 @@ export const tripSchema = new mongoose.Schema(
       enum: ['pending', 'processing', 'completed', 'failed'],
       default: 'pending',
     },
+    error: {
+      type: String,
+    },
     createdAt: {
       type: Date,
       default: Date.now,

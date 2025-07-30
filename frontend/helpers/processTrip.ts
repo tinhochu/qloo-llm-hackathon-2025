@@ -121,6 +121,8 @@ export default async function processTrip(tripId: string) {
 
     const data = await response.json()
 
+    console.log('👌 Qloo response', { data: JSON.stringify(data, null, 2) })
+
     return data
   } catch (error) {
     console.error(error)

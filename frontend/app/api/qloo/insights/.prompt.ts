@@ -27,8 +27,6 @@ Include:
 
 \`\`\`json
 {
-  "destination": "<Destination city>",
-  "duration": "<Number of days>",
   "trip_context": {
     "season": "<season>",
     "travel_mood": "<relaxed|adventurous|romantic|family>",
@@ -77,15 +75,7 @@ Include:
     },
     "top_recommendations": ["<Top 3 names>"],
     "cultural_insights": "<brief analysis of cultural landscape>"
-  },
-  "search_queries_executed": [
-    {
-      "query": "<destination>",
-      "types": ["<entity types>"],
-      "tags": ["<user tags>"],
-      "results_found": <int>
-    }
-  ]
+  }
 }
 \`\`\`
 

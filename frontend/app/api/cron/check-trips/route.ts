@@ -17,6 +17,22 @@ export async function GET(request: NextRequest) {
     // Connect to the database
     await connectMongo()
 
+    // First check if we have some trips in the failed status
+    const failedTrips = await Trip.find({ status: 'failed' })
+    if (failedTrips && failedTrips.length > 0) {
+      console.log(`Found ${failedTrips.length} failed trips`)
+      // for each failed trip, delete the trip
+      for (const trip of failedTrips) {
+        await Trip.findByIdAndUpdate(trip.id, {
+          $set: {
+            status: 'pending',
+            error: null,
+            itineraryText: null,
+          },
+        })
+      }
+    }
+
     // Get all ideas
     const trips = await Trip.find({ status: { $in: ['pending', 'processing'] } }).sort({ createdAt: -1 })
 
