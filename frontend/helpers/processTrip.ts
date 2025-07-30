@@ -101,8 +101,8 @@ export default async function processTrip(tripId: string) {
         messages: [
           {
             role: 'user',
-            content: `Create a trip itinerary for ${trip.destination}.
-              the duration of the trip is ${trip.duration} days, give me the itinerary for all the days of the trip.
+            content: `Create a trip itinerary for ${tripData?.destination}.
+              the duration of the trip is ${tripData?.duration} days, give me the itinerary for all the days of the trip.
               the season of the trip is ${updatedTrip?.season}.
               the mood of the trip is ${updatedTrip?.travelMood}.
               the cultural preferences of the trip are ${updatedTrip?.culturalPreferences.join(', ')}.
