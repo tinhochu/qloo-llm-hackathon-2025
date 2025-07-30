@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
     await connectMongo()
 
     // Get all ideas
-    const trips = await Trip.find({ status: 'pending' }).sort({ createdAt: -1 })
+    const trips = await Trip.find({ status: { $in: ['pending', 'processing'] } }).sort({ createdAt: -1 })
 
     // if there is no ideas, return
     if (!trips || trips.length === 0) return Response.json({ success: true }, { status: 200 })
