@@ -11,6 +11,8 @@ const isPublicRoute = createRouteMatcher([
   '/api/qloo',
   '/api/qloo/insights',
   '/api/qloo/entities',
+  '/api/agents/tiktok-agent',
+  '/api/agents/instagram-agent',
 ])
 
 export default clerkMiddleware(async (auth, req) => {
