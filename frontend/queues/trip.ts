@@ -7,6 +7,7 @@ import { Queue } from 'quirrel/next-app'
 export const tripQueue = Queue('api/queues/trip', async (trip: any) => {
   try {
     await connectMongo()
+
     const pusher = new Pusher({
       appId: process.env.PUSHER_APP_ID!,
       key: process.env.PUSHER_KEY!,
@@ -24,7 +25,7 @@ export const tripQueue = Queue('api/queues/trip', async (trip: any) => {
     // Update the trip status to processing
     await Trip.findByIdAndUpdate(trip.id, { $set: { status: 'processing' } })
 
-    const response = await processTrip(trip)
+    const response = await processTrip(trip.id)
 
     // Clean the JSON response by removing markdown code blocks and extra whitespace
     const itineraryText = response?.text

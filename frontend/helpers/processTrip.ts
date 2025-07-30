@@ -65,21 +65,29 @@ const getQlooEntities = async (trip: any, coords: { lat: number; lon: number }):
   return uniqueEntities
 }
 
-export default async function processTrip(trip: any) {
+export default async function processTrip(tripId: string) {
   try {
     await connectMongo()
 
+    const tripObject = await Trip.findById(tripId)
+
+    if (!tripObject) {
+      throw new Error('Trip not found')
+    }
+
+    const tripData = tripObject.toJSON()
+
     // get the coordinates from the location
-    const coords = await getCoordsfromLocation(trip.destination)
+    const coords = await getCoordsfromLocation(tripData?.destination || '')
 
     // get the qloo tags
-    const qlooTags = await getQlooTags(trip)
+    const qlooTags = await getQlooTags(tripData)
 
     // get the qloo entities
-    const qlooEntities = await getQlooEntities(trip, coords)
+    const qlooEntities = await getQlooEntities(tripData, coords)
 
     // update the trip with the qloo tags
-    await Trip.findByIdAndUpdate(trip.id, {
+    const updatedTrip = await Trip.findByIdAndUpdate(tripId, {
       $set: { qlooTags, qlooEntities, coords: { lat: coords.lat, lon: coords.lon } },
     })
 
@@ -95,9 +103,9 @@ export default async function processTrip(trip: any) {
             role: 'user',
             content: `Create a trip itinerary for ${trip.destination}.
               the duration of the trip is ${trip.duration} days, give me the itinerary for all the days of the trip.
-              the season of the trip is ${trip.season}.
-              the mood of the trip is ${trip.travelMood}.
-              the cultural preferences of the trip are ${trip.culturalPreferences.join(', ')}.
+              the season of the trip is ${updatedTrip?.season}.
+              the mood of the trip is ${updatedTrip?.travelMood}.
+              the cultural preferences of the trip are ${updatedTrip?.culturalPreferences.join(', ')}.
               the qloo tags of the trip are ${qlooTags.join(', ')}.
               the qloo entities of the trip are ${qlooEntities.join(', ')}.
               the itinerary should be in JSON format.

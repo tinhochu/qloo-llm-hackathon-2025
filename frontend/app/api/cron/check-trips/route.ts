@@ -27,7 +27,9 @@ export async function GET(request: NextRequest) {
     // for each trip, check if the trip is older than 1 hour
     for (const trip of trips) {
       const tripData = trip.toJSON()
-      await tripQueue.enqueue(tripData)
+      await tripQueue.enqueue({
+        id: trip.id,
+      })
     }
 
     return Response.json({ success: true }, { status: 200 })
