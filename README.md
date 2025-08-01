@@ -1,4 +1,4 @@
-![License](https://img.shields.io/github/license/tinhochu/qloo-llm-hackathon-2025) ![Last Commit](https://img.shields.io/github/last-commit/tinhochu/qloo-llm-hackathon-2025) [![Website](https://img.shields.io/website?url=https%3A%2F%appmuseme.vercel.app)](https://appmuse.vercel.app) ![React](https://img.shields.io/badge/Frontend-React-blue?logo=react)
+![License](https://img.shields.io/github/license/tinhochu/qloo-llm-hackathon-2025) ![Last Commit](https://img.shields.io/github/last-commit/tinhochu/qloo-llm-hackathon-2025) [![Website](https://img.shields.io/website?url=https%3A%2F%2Fappmuseme.vercel.app)](https://appmuseme.vercel.app) ![React](https://img.shields.io/badge/Frontend-React-blue?logo=react)
 ![Vercel](https://img.shields.io/badge/Hosting-Vercel-blue) ![Next.js](https://img.shields.io/badge/Framework-Next.js-000?logo=next.js) ![Tailwind CSS](https://img.shields.io/badge/Styling-TailwindCSS-38B2AC?logo=tailwind-css) [![Code Style: Prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://prettier.io/) ![Clerk](https://img.shields.io/badge/Authentication-Clerk-blue?logo=clerk) ![MongoDB](https://img.shields.io/badge/Database-MongoDB-blue?logo=mongodb) ![Mongoose](https://img.shields.io/badge/Database-Mongoose-blue?logo=mongoose) ![Google Gemini](https://img.shields.io/badge/AI-Google%20Gemini-blue?logo=google-gemini)
 
 ![Banner Image](https://github.com/user-attachments/assets/7104e150-eaf6-4d8b-aabe-a6ba614a6810)
@@ -16,7 +16,9 @@
 
 ## 🎥 Demo Video
 
-<!-- Insert demo video link once uploaded -->
+[![Appmuseme Demo](https://img.youtube.com/vi/8hdmUwOEAWM/maxresdefault.jpg)](https://youtu.be/8hdmUwOEAWM)
+
+Watch the full demo: [https://youtu.be/8hdmUwOEAWM](https://youtu.be/8hdmUwOEAWM)
 
 ## 🚀 Project Overview
 
